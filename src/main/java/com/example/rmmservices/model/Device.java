@@ -1,7 +1,5 @@
 package com.example.rmmservices.model;
 
-import java.math.BigDecimal;
-import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -20,17 +18,17 @@ public class Device {
 	private Long id;
 	private String systemName;
 	private String type;
-	private BigDecimal monthlyCost;
+
 	@ManyToMany
-	private List<Customer> customers;
+	private List<RMMService> rmmServices;
 
 	protected Device() {
 	}
 
-	public Device(String systemName, String type, BigDecimal monthlyCost) {
+	public Device(String systemName, String type, List<RMMService> rmmServices) {
 		this.systemName = systemName;
 		this.type = type;
-		this.monthlyCost = monthlyCost;
+		this.rmmServices = rmmServices;
 	}
 
 	// Getters & Setters
@@ -58,27 +56,17 @@ public class Device {
 		this.type = type;
 	}
 
-	public BigDecimal getMonthlyCost() {
-		return monthlyCost;
+	public List<RMMService> getRmmServices() {
+		return rmmServices;
 	}
 
-	public void setMonthlyCost(BigDecimal monthlyCost) {
-		this.monthlyCost = monthlyCost;
-	}
-
-	public List<Customer> getCustomers() {
-		return customers;
-	}
-
-	public void setCustomers(List<Customer> customers) {
-		this.customers = customers;
+	public void setRmmServices(List<RMMService> rmmServices) {
+		this.rmmServices = rmmServices;
 	}
 
 	// Overrides
-
 	@Override
 	public String toString() {
-		return String.format("Device[id=%d, systemName='%s', type='%s', monthlyCost='%s']", this.id, this.systemName,
-				this.type, new DecimalFormat("$#0.##").format(this.monthlyCost.setScale(2, BigDecimal.ROUND_HALF_UP)));
+		return String.format("Device[id=%d, systemName='%s', type='%s']", this.id, this.systemName, this.type);
 	}
 }

@@ -1,6 +1,6 @@
 package com.example.rmmservices.controller;
 
-import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,65 +9,77 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rmmservices.DeviceService;
+import com.example.rmmservices.DeviceBean;
 import com.example.rmmservices.model.Device;
+import com.example.rmmservices.model.RMMService;
 
 @RestController
 @RequestMapping(value = "/device")
 public class DeviceController {
 
 	@Autowired
-	private DeviceService deviceService;
+	private DeviceBean deviceService;
 
 	@RequestMapping(value = "add")
-	public @ResponseBody String addDevice(@RequestParam(required = true) String systemName,
-			@RequestParam(required = true) String type, @RequestParam(required = true) BigDecimal monthlyCost) {
-		Device device = deviceService
-				.add(new Device(systemName, type, monthlyCost.setScale(2, BigDecimal.ROUND_HALF_UP)));
-		if (Objects.isNull(device)) {
-			return "Error while saving the customer";
+	public @ResponseBody Device add(@RequestParam String systemName, @RequestParam String type,
+			@RequestParam(required = false) List<RMMService> rmmServices) {
+		Device device = deviceService.add(new Device(systemName, type, rmmServices));
+		if (Objects.isNull(device.getId())) {
+			new Exception("Error while saving the device");
 		}
-		return device.toString();
+		return device;
 	}
 
 	@RequestMapping(value = "update")
-	public @ResponseBody String updateDevice(@RequestParam(required = true) Long id, @RequestParam String systemName,
-			@RequestParam String type, @RequestParam BigDecimal monthlyCost) {
+	public @ResponseBody Device update(@RequestParam Long id, @RequestParam(required = false) String systemName,
+			@RequestParam(required = false) String type, @RequestParam(required = false) List<RMMService> rmmServices) {
 		Device device = deviceService.findById(id);
 		if (Objects.isNull(device)) {
-			return "There is not a device with id: " + id;
+			new Exception("There is not a device with id: " + id);
 		}
 
 		device.setSystemName(systemName);
 		device.setType(type);
-		device.setMonthlyCost(monthlyCost);
+		device.setRmmServices(rmmServices);
 		device = deviceService.update(device);
-		return device.toString();
+		return device;
 	}
 
 	@RequestMapping(value = "delete")
-	public @ResponseBody String deleteDevice(@RequestParam(required = true) Long id) {
+	public @ResponseBody String delete(@RequestParam(required = true) Long id) {
 		Device device = deviceService.findById(id);
 		if (Objects.isNull(device)) {
-			return "There is not a device with id: " + id;
+			new Exception("There is not a device with id: " + id);
 		}
 
 		deviceService.delete(device);
 		return "Device deleted";
 	}
 
-	@RequestMapping(value = "findDeviceBySystemName")
-	public @ResponseBody String findDeviceBySystemName(@RequestParam(required = true) String systemName) {
+	@RequestMapping(value = "findBySystemName")
+	public @ResponseBody Device findBySystemName(@RequestParam String systemName) {
 		Device device = deviceService.findDeviceBySystemName(systemName);
 		if (Objects.isNull(device)) {
-			return "There is no device with system name: " + systemName;
-		} else {
-			return device.toString();
+			new Exception("There is not a device with system name: " + systemName);
 		}
+		return device;
 	}
 
-	@RequestMapping(value = "findDeviceById")
-	public @ResponseBody String findDeviceById(@RequestParam(required = true) Long id) {
-		return deviceService.findById(id).toString();
+	@RequestMapping(value = "findById")
+	public @ResponseBody Device findById(@RequestParam Long id) throws Exception {
+		Device device = deviceService.findById(id);
+		if (Objects.isNull(device)) {
+			new Exception("There is not a device with id: " + id);
+		}
+		return device;
+	}
+
+	@RequestMapping(value = "findAll")
+	public @ResponseBody Iterable<Device> findAll() {
+		Iterable<Device> devices = deviceService.findAll();
+		if (Objects.isNull(devices)) {
+			new Exception("There are not any devices");
+		}
+		return devices;
 	}
 }

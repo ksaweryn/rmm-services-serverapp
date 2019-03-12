@@ -10,7 +10,7 @@ import com.example.rmmservices.dao.DeviceDao;
 import com.example.rmmservices.model.Device;
 
 @Service
-public class DeviceService {
+public class DeviceBean {
 
 	@Autowired
 	private DeviceDao deviceDao;
@@ -22,6 +22,10 @@ public class DeviceService {
 	public Device findById(Long id) {
 		Optional<Device> device = deviceDao.findById(id);
 		return device.orElse(null);
+	}
+
+	public Iterable<Device> findAll() {
+		return deviceDao.findAll();
 	}
 
 	public Device findDeviceBySystemName(String systemName) {

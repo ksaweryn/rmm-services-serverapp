@@ -41,7 +41,7 @@ public class RmmServicesApplicationTests {
 	@Test
 	public void givenWac_whenServletContext_thenItProvidesDeviceController() {
 	    ServletContext servletContext = wac.getServletContext();
-	    Mockito.mock(DeviceService.class);
+	    Mockito.mock(DeviceBean.class);
 	    Assert.assertNotNull(servletContext);
 	    Assert.assertTrue(servletContext instanceof MockServletContext);
 	    Assert.assertNotNull(wac.getBean("deviceController"));
