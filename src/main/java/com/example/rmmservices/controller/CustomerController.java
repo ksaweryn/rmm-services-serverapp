@@ -19,6 +19,7 @@ public class CustomerController {
 	@Autowired
 	private DeviceBean deviceBean;
 	
+	@RequestMapping("bill")
 	public String getMonthyBill() {
 		BigDecimal bill = BigDecimal.ZERO;
 		Iterable<Device> devices = deviceBean.findAll();
