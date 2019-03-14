@@ -2,33 +2,29 @@ package com.example.rmmservices.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Customer {
-	
+public class Users {
+
 	@Id
-	private Long id;
 	private String username;
-	private String pass;
-	
+	@Column(nullable = false)
+	private String password;
+	@Column(nullable = false)
+	private Boolean enabled;
+
 	@ManyToMany
 	private List<Device> devices;
 
-	public Customer(String username, String pass, List<Device> devices) {
+	public Users(String username, String password, List<Device> devices) {
 		this.username = username;
-		this.pass = pass;
+		this.password = password;
+		this.enabled = Boolean.TRUE;
 		this.devices = devices;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getUsername() {
@@ -39,12 +35,20 @@ public class Customer {
 		this.username = username;
 	}
 
-	public String getPass() {
-		return pass;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public List<Device> getDevices() {
@@ -55,6 +59,4 @@ public class Customer {
 		this.devices = devices;
 	}
 	
-	
-
 }
