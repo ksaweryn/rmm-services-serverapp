@@ -16,7 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	
+	@Autowired
+	private DataSource dataSource;
 	@Autowired
 	private AuthenticationSuccessHandler authenticationSuccessHandler;
 
@@ -28,11 +29,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	/**
 	 * Uncomment if database is reseted
 	 */
-	/*@Override
+	@Override
 	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().dataSource(dataSource).withUser("user").password(encoder().encode("userPass"))
 				.roles("USER").and().withUser("admin").password(encoder().encode("adminPass")).roles("USER", "ADMIN");
-	}*/
+	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

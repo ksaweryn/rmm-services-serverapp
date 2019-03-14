@@ -4,11 +4,13 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.rmmservices.RMMServiceBean;
 import com.example.rmmservices.model.RMMService;
@@ -21,11 +23,10 @@ public class RMMServiceController {
 
 	@RequestMapping(value = "add", method = RequestMethod.POST)
 	public @ResponseBody RMMService add(@RequestParam String type, @RequestParam Double monthlyCost) {
-		BigDecimal cost = new BigDecimal (monthlyCost);
-		RMMService rmmService = rmmServiceBean
-				.add(new RMMService(type, cost.setScale(2, BigDecimal.ROUND_HALF_UP)));
+		BigDecimal cost = new BigDecimal(monthlyCost);
+		RMMService rmmService = rmmServiceBean.add(new RMMService(type, cost.setScale(2, BigDecimal.ROUND_HALF_UP)));
 		if (Objects.isNull(rmmService)) {
-			new Exception("Error saving the RMM Service");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "RMMService was not saved");
 		}
 		return rmmService;
 	}
@@ -35,7 +36,7 @@ public class RMMServiceController {
 			@RequestParam(required = false) BigDecimal monthlyCost) {
 		RMMService rmmService = rmmServiceBean.findById(id);
 		if (Objects.isNull(rmmService)) {
-			new Exception("There is not a rmmService with id: " + id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is not a rmmService with id: " + id);
 		}
 		rmmService.setType(type);
 		rmmService.setMonthlyCost(monthlyCost.setScale(2, BigDecimal.ROUND_HALF_UP));
