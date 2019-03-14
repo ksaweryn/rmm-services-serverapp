@@ -3,10 +3,13 @@ package com.example.rmmservices;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.rmmservices.dao.DeviceDao;
 import com.example.rmmservices.model.Device;
@@ -19,7 +22,12 @@ public class DeviceBean {
 	private DeviceDao deviceDao;
 
 	public Device add(Device device) {
-		return deviceDao.save(device);
+		try {
+			return deviceDao.save(device);
+		} catch (ConstraintViolationException | DataIntegrityViolationException ex ) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error while saving the device");
+		}
+
 	}
 
 	public Device findById(Long id) {
@@ -73,7 +81,16 @@ public class DeviceBean {
 		if (!Objects.isNull(rmmServices)) {
 			List<RMMService> originalRMMServices = updatedDevice.getRmmServices();
 			originalRMMServices.addAll(rmmServices);
-			updatedDevice.setRmmServices(rmmServices.stream().distinct().collect(Collectors.toList()));
+			// TODO
+			/*
+			 * rmmServices.removeIf(item ->
+			 * (item.getType().toLowerCase().contains("windows") &&
+			 * !type.toLowerCase().contains("windows")) ||
+			 * (item.getType().toLowerCase().contains("mac") &&
+			 * !type.toLowerCase().contains("mac")));
+			 * updatedDevice.setRmmServices(rmmServices.stream().distinct().collect(
+			 * Collectors.toList()));
+			 */
 		}
 		return updatedDevice;
 	}
