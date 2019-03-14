@@ -48,7 +48,7 @@ public class RMMServiceController {
 	public @ResponseBody String delete(Long id) {
 		RMMService rmmService = rmmServiceBean.findById(id);
 		if (Objects.isNull(rmmService)) {
-			new Exception("There is not a rmmService with id: " + id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is not a rmmService with id: " + id);
 		}
 		rmmServiceBean.delete(rmmService);
 		return "Service deleted";

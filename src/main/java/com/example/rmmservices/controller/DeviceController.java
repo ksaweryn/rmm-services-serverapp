@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.rmmservices.DeviceBean;
 import com.example.rmmservices.model.Device;
@@ -27,8 +29,7 @@ public class DeviceController {
 			@RequestBody(required = false) List<RMMService> rmmServices) {
 		Device device = deviceBean.add(new Device(systemName, type, rmmServices));
 		if (Objects.isNull(device.getId())) {
-			new Exception("Error while saving the device");
-			return null;
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Error while saving the device");
 		}
 		return device;
 	}
@@ -38,8 +39,7 @@ public class DeviceController {
 			@RequestParam(required = false) String type, @RequestBody(required = false) List<RMMService> rmmServices) {
 		Device device = deviceBean.findById(id);
 		if (Objects.isNull(device)) {
-			new Exception("There is not a device with id: " + id);
-			return null;
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is not a device with id: " + id);
 		}
 		device = deviceBean.updateDevice(systemName, type, rmmServices, device);
 		return deviceBean.update(device);
@@ -49,8 +49,7 @@ public class DeviceController {
 	public @ResponseBody Device deleteRMMService(@RequestParam Long id, @RequestBody List<RMMService> rmmServices) {
 		Device device = deviceBean.findById(id);
 		if (Objects.isNull(device)) {
-			new Exception("There is not a device with id: " + id);
-			return null;
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is not a device with id: " + id);
 		}
 		device = deviceBean.updateRMMServices(rmmServices, device);
 		return deviceBean.update(device);
@@ -60,7 +59,7 @@ public class DeviceController {
 	public @ResponseBody String delete(@RequestParam(required = true) Long id) {
 		Device device = deviceBean.findById(id);
 		if (Objects.isNull(device)) {
-			new Exception("There is not a device with id: " + id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is not a device with id: " + id);
 		}
 
 		deviceBean.delete(device);
@@ -71,7 +70,8 @@ public class DeviceController {
 	public @ResponseBody Device findBySystemName(@RequestParam String systemName) {
 		Device device = deviceBean.findDeviceBySystemName(systemName);
 		if (Objects.isNull(device)) {
-			new Exception("There is not a device with system name: " + systemName);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"There is not a device with system name: " + systemName);
 		}
 		return device;
 	}
@@ -80,7 +80,7 @@ public class DeviceController {
 	public @ResponseBody Device findById(@RequestParam Long id) throws Exception {
 		Device device = deviceBean.findById(id);
 		if (Objects.isNull(device)) {
-			new Exception("There is not a device with id: " + id);
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There is not a device with id: " + id);
 		}
 		return device;
 	}
@@ -89,7 +89,7 @@ public class DeviceController {
 	public @ResponseBody Iterable<Device> findAll() {
 		Iterable<Device> devices = deviceBean.findAll();
 		if (Objects.isNull(devices)) {
-			new Exception("There are not any devices");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "There are not any devices");
 		}
 		return devices;
 	}
