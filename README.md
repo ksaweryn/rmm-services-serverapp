@@ -81,7 +81,7 @@ It creates a new device
 It is a POST http method  
  
 * _addRMMServices_  
-It adds a rmm service to the device  
+It adds a rmm service to the device and it could also update the device  
 It is a PUT http method  
 
 * _deleteRMMService_  
@@ -141,6 +141,12 @@ The services are:
 * _bill_  
 It calculates the bill of the devices and services
 It is a GET http method  
+
+### Working examples
+
+In the extras folder there is the file _RMM-Services-soapui-project.xml_ which is a working example of the use of REST services to be run in SOAPUI software.  
+SOAPUI can be downloaded from [here](https://www.soapui.org/downloads/latest-release.html)  
+It works for Windows, Linux and Mac OS.  
 
 ## References
 The project was based on the next web pages as a reference of implementation

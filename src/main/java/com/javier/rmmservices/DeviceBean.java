@@ -24,7 +24,7 @@ public class DeviceBean {
 	public Device add(Device device) {
 		try {
 			return deviceDao.save(device);
-		} catch (ConstraintViolationException | DataIntegrityViolationException ex ) {
+		} catch (ConstraintViolationException | DataIntegrityViolationException ex) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Error while saving the device");
 		}
 
@@ -81,16 +81,13 @@ public class DeviceBean {
 		if (!Objects.isNull(rmmServices)) {
 			List<RMMService> originalRMMServices = updatedDevice.getRmmServices();
 			originalRMMServices.addAll(rmmServices);
+
 			// TODO
-			/*
-			 * rmmServices.removeIf(item ->
-			 * (item.getType().toLowerCase().contains("windows") &&
-			 * !type.toLowerCase().contains("windows")) ||
-			 * (item.getType().toLowerCase().contains("mac") &&
-			 * !type.toLowerCase().contains("mac")));
-			 * updatedDevice.setRmmServices(rmmServices.stream().distinct().collect(
-			 * Collectors.toList()));
-			 */
+			rmmServices.removeIf(item -> item.getType().toLowerCase().contains("antivirus")
+					&& ((item.getType().toLowerCase().contains("windows")
+							&& device.getType().toLowerCase().contains("mac"))
+							|| ((item.getType().toLowerCase().contains("mac")
+									&& device.getType().toLowerCase().contains("windows")))));
 		}
 		return updatedDevice;
 	}
