@@ -82,7 +82,6 @@ public class DeviceBean {
 			List<RMMService> originalRMMServices = updatedDevice.getRmmServices();
 			originalRMMServices.addAll(rmmServices);
 
-			// TODO
 			rmmServices.removeIf(item -> item.getType().toLowerCase().contains("antivirus")
 					&& ((item.getType().toLowerCase().contains("windows")
 							&& device.getType().toLowerCase().contains("mac"))
