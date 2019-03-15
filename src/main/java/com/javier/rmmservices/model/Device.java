@@ -30,7 +30,15 @@ public class Device {
 	public Device(String systemName, String type, List<RMMService> rmmServices) {
 		this.systemName = systemName;
 		this.type = type;
-		this.rmmServices = rmmServices;
+		if (!Objects.isNull(rmmServices)) {
+			rmmServices.removeIf(item -> item.getType().toLowerCase().contains("antivirus")
+					&& ((item.getType().toLowerCase().contains("windows") && systemName.toLowerCase().contains("mac"))
+							|| ((item.getType().toLowerCase().contains("mac")
+									&& systemName.toLowerCase().contains("windows")))));
+			this.rmmServices = rmmServices;
+		} else {
+			this.rmmServices = null;
+		}
 	}
 
 	// Getters & Setters
