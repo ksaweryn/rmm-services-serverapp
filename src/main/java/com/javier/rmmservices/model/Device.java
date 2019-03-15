@@ -32,11 +32,22 @@ public class Device {
 		this.systemName = systemName;
 		this.type = type;
 		if (!Objects.isNull(rmmServices)) {
-			rmmServices.removeIf(item -> item.getType().toLowerCase().contains("antivirus")
+		/*	for (RMMService rmm : rmmServices) {
+				if ((rmm.getType().toLowerCase().contains("antivirus")
+						&& ((rmm.getType().toLowerCase().contains("windows")
+								&& systemName.toLowerCase().contains("mac"))
+								|| (rmm.getType().toLowerCase().contains("mac"))
+										&& systemName.toLowerCase().contains("windows")))) {
+
+				}
+			}*/
+
+			rmmServices.removeIf(item -> (item.getType().toLowerCase().contains("antivirus"))
 					&& ((item.getType().toLowerCase().contains("windows") && systemName.toLowerCase().contains("mac"))
-							|| ((item.getType().toLowerCase().contains("mac")
-									&& systemName.toLowerCase().contains("windows")))));
+							|| ((item.getType().toLowerCase().contains("mac"))
+									&& systemName.toLowerCase().contains("windows"))));
 			this.rmmServices = rmmServices;
+
 		} else {
 			this.rmmServices = null;
 		}

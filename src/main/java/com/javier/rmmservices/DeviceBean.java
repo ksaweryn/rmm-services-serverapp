@@ -1,5 +1,6 @@
 package com.javier.rmmservices;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,8 +61,7 @@ public class DeviceBean {
 		Device updatedDevice = device;
 		if (!Objects.isNull(rmmServices)) {
 			List<RMMService> originalRMMServices = updatedDevice.getRmmServices();
-			originalRMMServices
-					.removeIf(item -> rmmServices.stream().anyMatch(rmm -> rmm.getId().equals(item.getId())));
+			deleteDuplicates(rmmServices, originalRMMServices);
 			updatedDevice.setRmmServices(originalRMMServices);
 		}
 		return updatedDevice;
@@ -80,15 +80,30 @@ public class DeviceBean {
 
 		if (!Objects.isNull(rmmServices)) {
 			List<RMMService> originalRMMServices = updatedDevice.getRmmServices();
+			
+			if (Objects.isNull(originalRMMServices)) {
+				originalRMMServices = new ArrayList<>();
+			} else {
+				deleteDuplicates(rmmServices, originalRMMServices);
+			}
 			originalRMMServices.addAll(rmmServices);
 
-			rmmServices.removeIf(item -> item.getType().toLowerCase().contains("antivirus")
+			originalRMMServices.removeIf(item -> item.getType().toLowerCase().contains("antivirus")
 					&& ((item.getType().toLowerCase().contains("windows")
 							&& device.getType().toLowerCase().contains("mac"))
-							|| ((item.getType().toLowerCase().contains("mac")
-									&& device.getType().toLowerCase().contains("windows")))));
+							|| (item.getType().toLowerCase().contains("mac")
+									&& device.getType().toLowerCase().contains("windows"))));
+			
+			
+			updatedDevice.setRmmServices(originalRMMServices);
 		}
 		return updatedDevice;
+	}
+
+	// Private method section
+
+	private void deleteDuplicates(List<RMMService> rmmServices, List<RMMService> originalRMMServices) {
+		originalRMMServices.removeIf(item -> rmmServices.stream().anyMatch(rmm -> rmm.getId().equals(item.getId())));
 	}
 
 }
