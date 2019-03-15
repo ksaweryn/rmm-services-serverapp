@@ -1,4 +1,4 @@
-package com.example.rmmservices.model;
+package com.javier.rmmservices.model;
 
 import java.io.Serializable;
 

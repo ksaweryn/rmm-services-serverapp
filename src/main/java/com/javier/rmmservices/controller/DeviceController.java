@@ -1,4 +1,4 @@
-package com.example.rmmservices.controller;
+package com.javier.rmmservices.controller;
 
 import java.util.List;
 import java.util.Objects;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.rmmservices.DeviceBean;
-import com.example.rmmservices.model.Device;
-import com.example.rmmservices.model.RMMService;
+import com.javier.rmmservices.DeviceBean;
+import com.javier.rmmservices.model.Device;
+import com.javier.rmmservices.model.RMMService;
 
 @RestController
 @RequestMapping(value = "/device")

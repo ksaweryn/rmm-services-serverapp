@@ -1,4 +1,4 @@
-package com.example.rmmservices;
+package com.javier.rmmservices;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

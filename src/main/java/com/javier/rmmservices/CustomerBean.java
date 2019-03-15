@@ -1,4 +1,4 @@
-package com.example.rmmservices;
+package com.javier.rmmservices;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.rmmservices.model.Device;
-import com.example.rmmservices.model.RMMService;
+import com.javier.rmmservices.model.Device;
+import com.javier.rmmservices.model.RMMService;
 
 @Service
 public class CustomerBean {

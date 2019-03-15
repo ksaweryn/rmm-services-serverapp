@@ -1,4 +1,4 @@
-package com.example.rmmservices;
+package com.javier.rmmservices;
 
 import java.util.Optional;
 
@@ -9,8 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.rmmservices.dao.RMMServiceDao;
-import com.example.rmmservices.model.RMMService;
+import com.javier.rmmservices.dao.RMMServiceDao;
+import com.javier.rmmservices.model.RMMService;
 
 @Service
 public class RMMServiceBean {

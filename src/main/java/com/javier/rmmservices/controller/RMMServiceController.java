@@ -1,4 +1,4 @@
-package com.example.rmmservices.controller;
+package com.javier.rmmservices.controller;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.rmmservices.RMMServiceBean;
-import com.example.rmmservices.model.RMMService;
+import com.javier.rmmservices.RMMServiceBean;
+import com.javier.rmmservices.model.RMMService;
 
 @RestController
 @RequestMapping(value = "/rmmService")

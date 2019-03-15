@@ -1,4 +1,4 @@
-package com.example.rmmservices.controller;
+package com.javier.rmmservices.controller;
 
 import java.math.BigDecimal;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.rmmservices.CustomerBean;
-import com.example.rmmservices.DeviceBean;
+import com.javier.rmmservices.CustomerBean;
+import com.javier.rmmservices.DeviceBean;
 
 @RestController
 @RequestMapping(value = "/customer")

@@ -1,4 +1,4 @@
-package com.example.rmmservices;
+package com.javier.rmmservices;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,9 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.rmmservices.dao.DeviceDao;
-import com.example.rmmservices.model.Device;
-import com.example.rmmservices.model.RMMService;
+import com.javier.rmmservices.dao.DeviceDao;
+import com.javier.rmmservices.model.Device;
+import com.javier.rmmservices.model.RMMService;
 
 @Service
 public class DeviceBean {

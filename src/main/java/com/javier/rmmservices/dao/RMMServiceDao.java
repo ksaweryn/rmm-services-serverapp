@@ -1,8 +1,8 @@
-package com.example.rmmservices.dao;
+package com.javier.rmmservices.dao;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.example.rmmservices.model.RMMService;
+import com.javier.rmmservices.model.RMMService;
 
 public interface RMMServiceDao extends CrudRepository<RMMService, Long> {
 	
