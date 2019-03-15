@@ -37,12 +37,43 @@ The project has the basic package structure _'com.javier'_
 ## Compilation & Run
 
 * Connect to your PostgreSQL server and create a database called rmm-db
-* You have two options to create the model of the database:
+	
+	- In order to connect to the database you should have PostgreSQL 11 installed
+	- Then, create role rmm-db with password Admin2019
+	- The last configuration is for the application.properties file (where the database connection is declared)
+	- This project supposes that PostgreSQL and the rmm-service application run in the same server
+		* If your database is in other sever, please update the application.properties file as required.
 
-	1. Restore from rmm-services/extras/rmm-db-bk
+### Create or restore database
+
+It is possible to restore
+	
+* You have two options to create or re-create the model of the database:
+
+	1. Restore from rmm-services/extras/rmm_backup.bak
 	2. After running the application it will create the required model with empty data.
+	
+#### Create database
+
+To create a fresh database:
+
+	1. Change in the application.properties file the option spring.jpa.hibernate.ddl-auto from none to create.
+	2. In the SecurityConfiguration class change uncomment the code found and comment the immediate next section.  
+
+#### Restore database
+
+To restore the database it must be used the backup file located in the _extras_ folder.  
+The file rmm_backup.bak has the backup database.  
+It was created through _pg__dump_ command.  
+To use this backup please connect to the database with the user rmm-db and execute (as it was created in the _Compilation & Run_ section).  
+
+```console
+$ psql rmm-db < $PATH_TO_BACKUP/rmm_backup.bak 
+```
+
+### Run the application 
 	 
-* Import the project with Gradle
+* Download the project
 * Build the project with Gradle
 * To generate a bootable jar run the gradle task:
 
@@ -53,10 +84,10 @@ $ gradle ask booJar
 * To run the project:
 
 ```console  
-$ java -jar $JAR_PATH-build/libs/rmm-services-1.0.0.jar  
+$ java -jar $PROJECT_PATH/build/libs/rmm-services-1.0.0.jar  
 ```
 	
-If project is correctly compiled and executed you will access to page localhost:8080 and it will prompt a login page.  
+If the project is correctly compiled and executed you will access to page localhost:8080 and it will prompt a login page.  
 After the application has deployed please restore the database.  
 There are two default users:
 
@@ -65,9 +96,13 @@ There are two default users:
 	
 Use _user_ to test the REST services.   
 _admin_ is for "houserkeeping" tasks, which are not implemented. 
-## Rest services
+
+## Rest services
 
 This section describes the REST services and their URLs.  
+It is possible to test these services in you web browser.  
+Although it is recommended to test these services with a REST client.  
+In this guide it will be tested with SOAPUI software and curl (to be run in the command line)
 
 ### Device Services
 
